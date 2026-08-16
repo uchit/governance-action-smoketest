@@ -1,0 +1,23 @@
+name: EAAPL AI Governance Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: EAAPL Governance Check
+        uses: uchit/governance-action@v1
+        with:
+          api_key: ${{ secrets.EAAPL_API_KEY }}
+          framework: both
+          fail_on_gaps: false
